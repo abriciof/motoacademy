@@ -1,7 +1,13 @@
+/*
+ * Autor: Fabrício da Costa Guimarães
+ * Data de criação: 28/04/2025
+ * Descrição: Programa que gera vetores de tamanhos variados, ordena e mede o tempo de execução.
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
 
 // Cria um vetor randomico
 void criar_vetor_random(int vetor[], int tamanho) {
