@@ -164,38 +164,78 @@ void merge_sort_main(int vetor[], int tamanho) {
 // ------------- BinaryInsertionSort -------------
 
 // Função busca binária
-int binary_search(int arr[], int item, int low, int high) {
+int binary_search(int vetor[], int item, int low, int high) {
     if (high <= low)
-        return (item > arr[low]) ? (low + 1) : low;
+        return (item > vetor[low]) ? (low + 1) : low;
 
     int mid = (low + high) / 2;
 
-    if (item == arr[mid])
+    if (item == vetor[mid])
         return mid + 1;
 
-    if (item > arr[mid])
-        return binary_search(arr, item, mid + 1, high);
-    return binary_search(arr, item, low, mid - 1);
+    if (item > vetor[mid])
+        return binary_search(vetor, item, mid + 1, high);
+    return binary_search(vetor, item, low, mid - 1);
 }
 
 // Algoritmo de ordenação BinaryInsertionSort
-void binary_insertion_sort(int arr[], int n) {
+void binary_insertion_sort(int vetor[], int n) {
     int i, j, selected, loc;
 
     for (i = 1; i < n; ++i) {
         j = i - 1;
-        selected = arr[i];
+        selected = vetor[i];
 
-        loc = binary_search(arr, selected, 0, j);
+        loc = binary_search(vetor, selected, 0, j);
 
         while (j >= loc) {
-            arr[j + 1] = arr[j];
+            vetor[j + 1] = vetor[j];
             j--;
         }
-        arr[j + 1] = selected;
+        vetor[j + 1] = selected;
     }
 }
 
+
+
+// ------------- QuickSort -------------
+
+
+// Trocar valores de duas variáveis
+void trocar(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int particionar(int vetor[], int baixo, int alto) {
+    int pivo = vetor[alto];
+    int i = (baixo - 1);
+
+    for (int j = baixo; j <= alto - 1; j++) {
+        if (vetor[j] <= pivo) {
+            i++;
+            trocar(&vetor[i], &vetor[j]);
+        }
+    }
+    trocar(&vetor[i + 1], &vetor[alto]);
+    return (i + 1);
+}
+
+// Algoritmo de ordenação QuickSort
+void quick_sort(int vetor[], int baixo, int alto) {
+    if (baixo < alto) {
+        int pi = particionar(vetor, baixo, alto);
+
+        quick_sort(vetor, baixo, pi - 1);
+        quick_sort(vetor, pi + 1, alto);
+    }
+}
+
+
+void quick_sort_main(int vetor[], int tamanho) {
+    quick_sort(vetor, 0, tamanho - 1);
+}
 
 
 // #################################### Main #############################################
@@ -211,10 +251,11 @@ int main() {
 
     // Defina aqui todos os algoritmos que quer testar
     ordernador_t ordenacoes[] = {
-        { "CombSort",            comb_sort },
-        { "ShellSort",           shell_sort },
         { "MergeSort",           merge_sort_main },
+        { "QuickSort",           quick_sort_main },
         { "BinaryInsertionSort", binary_insertion_sort },
+        { "CombSort",            comb_sort },
+        { "ShellSort",           shell_sort }
     };
 
     int qtde_ordernacoes = sizeof(ordenacoes) / sizeof(ordenacoes[0]);
