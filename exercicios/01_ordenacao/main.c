@@ -120,6 +120,7 @@ void merge(int vetor[], int l, int m, int r) {
         R[j] = vetor[m + 1 + j];
     
     int i = 0, j = 0, k = l;
+
     while (i < n1 && j < n2) {
         if (L[i] <= R[j]) {
             vetor[k] = L[i];
@@ -241,13 +242,19 @@ void quick_sort_main(int vetor[], int tamanho) {
 // #################################### Main #############################################
 
 
-
-
-// Estrutura para mapear nome ↔ função
-
-
 int main() {
+    // Deixando o mais randômico
     srand((unsigned)time(NULL));
+
+     // Abre o arquivo CSV
+     FILE *fp = fopen("resultados.csv", "w");
+     if (!fp) {
+         perror("Erro ao abrir resultados.csv");
+         return 1;
+     }
+
+    // Escreve cabeçalho no CSV
+    fprintf(fp, "tamanho;metodo;tempo_segundos;tempo_milisegundos\n");
 
     // Defina aqui todos os algoritmos que quer testar
     ordernador_t ordenacoes[] = {
@@ -260,7 +267,7 @@ int main() {
 
     int qtde_ordernacoes = sizeof(ordenacoes) / sizeof(ordenacoes[0]);
 
-    int tamanhos[] = {500, 5000, 10000, 50000, 150000, 500000, 1000000};
+    int tamanhos[] = {500, 5000, 10000, 50000, 150000, 500000};
     int qtde_tamanhos = sizeof(tamanhos) / sizeof(tamanhos[0]);
 
     // Cabeçalho do relatório
@@ -300,6 +307,10 @@ int main() {
 
             printf("| %8d | %-20s | %13.6f | %13.3f |\n",
                 tamanho_atual, ordenacoes[si].nome, tempo_segundos, tempo_milisegundos);
+
+            // Escreve no CSV
+            fprintf(fp, "%d;%s;%.6f;%.3f\n",
+                tamanho_atual, ordenacoes[si].nome, tempo_segundos, tempo_milisegundos);
             
             // Liberando memória do vetor cópia
             free(vetor);
@@ -311,6 +322,6 @@ int main() {
         free(vetor_original);
     }
 
-    printf("=====================================================================\n");
+    fclose(fp);
     return 0;
 }
