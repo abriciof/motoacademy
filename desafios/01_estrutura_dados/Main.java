@@ -8,7 +8,7 @@ public class Main
     private int menor;
 
     Main(){
-        this.pilha = new Stack<>();
+        this.pilha = new Stack<Integer>();
     }
 
     public static void main(String[] args) 
@@ -18,8 +18,7 @@ public class Main
         int aux;
         String operacao;
 
-        Main pilha_class = new Main();
-        Stack<Integer> pilha = pilha_class.getPilha();
+        Main app = new Main();
         
         for(int i = 0; i < tamanho_entrada; i++)
 		{
@@ -28,41 +27,35 @@ public class Main
 
             switch(operacao) {
                 case "PUSH":
+
                     aux = leitor.nextInt();
-        			pilha.push(aux);
-                    pilha_class.setPilha(pilha);
 
-                    if (pilha.size() == 1){
-                        pilha_class.setMenor(pilha.peek());
-                    }
-                    System.out.println(pilha);
-
-                    
+                    app.empilha(aux);
 
                     break;
+                
                 case "POP":
-                    pilha.pop();
-                    pilha_class.setPilha(pilha);
-                    System.out.println(pilha);
+
+                    app.desenpilha();
 
                     break;
+
                 case "MIN":
-                    if (pilha.empty()){
+
+                    if (app.ehVazia()){
                         System.out.println("EMPTY");
                     }else{
-                        pilha_class.calculaMenor();
-                        System.out.println(pilha_class.getMenor());
+                        app.calculaMenor();
+                        System.out.println(app.getMenor());
                     }
                     break;
                 
                 default:
-                    System.out.println(pilha);
                 }
 
-            // System.out.println(pilha);
-            
 		}
-
+        
+        leitor.close();
     }
 
     public Stack<Integer> getPilha()
@@ -73,8 +66,30 @@ public class Main
     public void setPilha(Stack<Integer> pilha)
     {
         this.pilha = pilha;
-        System.out.println(this.pilha);
+    }
 
+    public void empilha(int valor){
+        Stack<Integer> _pilha = this.getPilha();
+        
+        _pilha.push(valor);
+
+        this.setPilha(_pilha);
+    }
+
+    public int desenpilha(){
+        Stack<Integer> _pilha = this.getPilha();
+
+        int valor = _pilha.pop();
+
+        this.setPilha(_pilha);
+
+        return valor;
+    }
+
+    public boolean ehVazia(){
+        Stack<Integer> _pilha = this.getPilha();
+
+        return _pilha.isEmpty();
     }
 
     public int getMenor(){
@@ -86,23 +101,17 @@ public class Main
     }
 
     public void calculaMenor(){
-        Stack<Integer> pilha_ordenada = this.getPilha();
+        Stack<Integer> _pilha = this.getPilha();
 
-        System.out.println("dENTRO");
-        
-        System.out.println(pilha_ordenada);
-        
-        int menor = pilha_ordenada.peek();
+        int menor = _pilha.peek();
 
-        for(int i = 0; i < pilha_ordenada.size(); i++){
-            if (pilha_ordenada.peek() < menor){
-                menor = pilha_ordenada.peek();
+        for (int valor : _pilha) {
+            if (valor < menor) {
+                menor = valor;
             }
-            pilha_ordenada.pop();
         }
 
         this.setMenor(menor);
-
     }
 
 
