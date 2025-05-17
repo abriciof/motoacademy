@@ -10,6 +10,7 @@ public class Main
         int tamanho_entrada = leitor.nextInt();
         int aux;
         String operacao;
+
         Stack<Integer> pilha = new Stack<Integer>();
         Stack<Integer> pilhaMin = new Stack<Integer>();
 
@@ -23,7 +24,7 @@ public class Main
 
             switch(operacao) {
                 case "PUSH":
-                    
+
                     // Lendo valor do terminal
                     aux = leitor.nextInt();
 
